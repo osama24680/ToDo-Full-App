@@ -2,6 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  console.log(pathname);
   const storageKey = "loggedInUser";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;

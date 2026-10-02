@@ -16,6 +16,7 @@ interface IFormInput {
   password: string;
 }
 const LoginPage = () => {
+  // localStorage.clear();
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -28,12 +29,15 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setIsLoading(true);
     try {
-      const { status } = await axiosInstance.post("/auth/local", data);
-
+      const { status, data: resData } = await axiosInstance.post(
+        "/auth/local",
+        data,
+      );
+      console.log(resData);
       if (status == 200) {
-        toast.success("You will be navigated to Home page in 4 seconds!", {
+        toast.success("You will be navigated to Home page in 2 seconds!", {
           position: "bottom-center",
-          duration: 4000,
+          duration: 2000,
           style: {
             background: "black",
             color: "#fff",
@@ -41,6 +45,10 @@ const LoginPage = () => {
           },
         });
       }
+      localStorage.setItem("loggedInUser", JSON.stringify(resData));
+      setTimeout(() => {
+        location.replace("/");
+      }, 2000);
     } catch (error) {
       const errorObj = error as AxiosError<IErrorResponse>;
       const errorMessage = errorObj.response?.data?.error?.message;
@@ -69,12 +77,7 @@ const LoginPage = () => {
       <h2 className="mb-4 text-3xl font-semibold text-center">
         Login to get access!
       </h2>
-      <form
-        className="space-y-4"
-        form
-        className="space-y-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         {renderLoginComponent}
         <Button fullWidth isLoading={isLoading}>
           Login
