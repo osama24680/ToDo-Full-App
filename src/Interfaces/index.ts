@@ -33,7 +33,7 @@ export interface IErrorResponse {
 
 export interface ITodo {
   documentId?: string;
-  id: number;
+  id?: number;
   title: string;
   description: string;
 }
