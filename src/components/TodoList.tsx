@@ -7,6 +7,7 @@ import Textarea from "./ui/Textarea";
 import { ITodo } from "../interfaces";
 import axiosInstance from "../Config/axios.config";
 import TodoSkeleton from "./TodoSkeleton";
+import { faker } from "@faker-js/faker";
 
 const TodoList = () => {
   const storageKey = "loggedInUser";
@@ -109,7 +110,30 @@ const TodoList = () => {
     }
   };
 
-  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const onGenerateTodos = async () => {
+    for (let i = 1; i <= 100; i++) {
+      try {
+        const { data } = await axiosInstance.post(
+          `/todos`,
+          {
+            data: {
+              title: faker.word.words(5),
+              description: faker.lorem.paragraph(2),
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${userData?.jwt}`,
+            },
+          },
+        );
+        console.log(data);
+      } catch (error) {
+        console.error("Error updating todo:", error);
+      }
+    }
+  };
+  const onSubmitUpdateTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsUpdated(true);
     console.log("Updated todo:", todoToEdit);
@@ -137,7 +161,7 @@ const TodoList = () => {
     }
   };
 
-  const onSubmitAddHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitAddTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsUpdated(true);
     console.log("new todo:", todoToAdd);
@@ -146,7 +170,7 @@ const TodoList = () => {
 
     try {
       const data = await axiosInstance.post(
-        `/todos `,
+        `/todos`,
         { data: { title, description } },
         {
           headers: {
@@ -178,13 +202,16 @@ const TodoList = () => {
 
   return (
     <div className="space-y-1">
-      <div className="w-fit mx-auto my-10">
+      <div className="w-fit mx-auto my-10 flex items-center space-x-3">
         <Button size="sm" onClick={onOpenAddModal}>
           Post New Todo
         </Button>
+        <Button variant="outline" size="sm" onClick={onGenerateTodos}>
+          Create Todos
+        </Button>
       </div>
-      {data.todos.length > 0 ? (
-        data.todos.map((todo: ITodo) => (
+      {data?.todos?.length > 0 ? (
+        data?.todos?.map((todo: ITodo) => (
           <div
             key={todo.id}
             className="flex items-center justify-between hover:bg-gray-100 even:bg-gray-100 duration-300 rounded-md p-3"
@@ -217,7 +244,7 @@ const TodoList = () => {
           title="Edit Todo"
           description="Edit the selected todo item"
         >
-          <form onSubmit={(e) => onSubmitHandler(e)} className="space-y-4">
+          <form onSubmit={(e) => onSubmitUpdateTodo(e)} className="space-y-4">
             <Input
               name="title"
               value={todoToEdit.title}
@@ -266,7 +293,7 @@ const TodoList = () => {
         title="Add New Todo"
         description="Fill in the details to create a new todo item"
       >
-        <form onSubmit={(e) => onSubmitAddHandler(e)} className="space-y-4">
+        <form onSubmit={(e) => onSubmitAddTodo(e)} className="space-y-4">
           <Input
             name="title"
             placeholder="Todo title"
