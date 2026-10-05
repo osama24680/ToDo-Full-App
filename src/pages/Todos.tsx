@@ -1,5 +1,5 @@
 import useCustomQuery from "../Hooks/useCustomQuery";
-import { ITodo } from "../interfaces";
+import { ITodo } from "../Interfaces";
 import TodoSkeleton from "../components/TodoSkeleton";
 import Paginator from "../components/ui/Paginator";
 import { useState } from "react";

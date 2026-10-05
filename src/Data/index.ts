@@ -1,4 +1,4 @@
-import { ILoginInput, IRegisterInput } from "../interfaces";
+import { ILoginInput, IRegisterInput } from "../Interfaces";
 
 export const REGISTER_FORM: IRegisterInput[] = [
   {

@@ -4,10 +4,9 @@ import Modal from "./ui/Modal";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Input from "./ui/Input";
 import Textarea from "./ui/Textarea";
-import { ITodo } from "../interfaces";
+import { ITodo } from "../Interfaces";
 import axiosInstance from "../Config/axios.config";
 import TodoSkeleton from "./TodoSkeleton";
-import { faker } from "@faker-js/faker";
 
 const TodoList = () => {
   const storageKey = "loggedInUser";

@@ -9,7 +9,7 @@ import axiosInstance from "../Config/axios.config.ts";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { AxiosError } from "axios";
-import { IErrorResponse } from "../interfaces/index.ts";
+import { IErrorResponse } from "../Interfaces/index.ts";
 import { useNavigate } from "react-router-dom";
 // Renders
 interface IFormInput {

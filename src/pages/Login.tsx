@@ -8,7 +8,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axiosInstance from "../Config/axios.config";
 import toast from "react-hot-toast";
-import { IErrorResponse } from "../interfaces";
+import { IErrorResponse } from "../Interfaces";
 import { AxiosError } from "axios";
 
 interface IFormInput {

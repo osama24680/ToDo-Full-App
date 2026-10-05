@@ -3,7 +3,7 @@ import axiosInstance from "../Config/axios.config";
 import { AxiosRequestConfig } from "axios";
 
 interface IAuthenticatedQuery {
-  queryKey: string[];
+  queryKey: (string | number | object)[];
   url: string;
   config?: AxiosRequestConfig;
 }
