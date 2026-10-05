@@ -4,17 +4,20 @@ import TodoSkeleton from "../components/TodoSkeleton";
 import Paginator from "../components/ui/Paginator";
 import { useState } from "react";
 import Button from "../components/ui/Button";
+import axiosInstance from "../Config/axios.config";
+import { faker } from "@faker-js/faker";
 
 interface IProps {}
 const TodosPage = ({}: IProps) => {
   const storageKey = "loggedInUser";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
+  const [newData, setNewData] = useState({});
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [sortBy, setSortBy] = useState("ASC");
   const configData = {
-    queryKey: [page, pageSize, sortBy],
+    queryKey: [page, pageSize, sortBy, newData],
     url: `/todos?pagination[pageSize]=${pageSize}&pagination[page]=${page}&sort=createdAt:${sortBy}`,
     config: {
       headers: {
@@ -36,6 +39,30 @@ const TodosPage = ({}: IProps) => {
   const onChangeSortBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value);
   };
+  const onGenerateTodos = async () => {
+    for (let i = 1; i <= 100; i++) {
+      try {
+        const { data } = await axiosInstance.post(
+          `/todos`,
+          {
+            data: {
+              title: faker.word.words(5),
+              description: faker.lorem.paragraph(2),
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${userData?.jwt}`,
+            },
+          },
+        );
+        setNewData(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error updating todo:", error);
+      }
+    }
+  };
   const { pageCount, total } = data?.meta?.pagination || {};
   if (isLoading) {
     return (
@@ -50,13 +77,9 @@ const TodosPage = ({}: IProps) => {
   return (
     <>
       <div className="flex items-center justify-between space-x-2">
-        {/* <Button
-          size="sm"
-          onClick={onGenerateTodos}
-          title="Generate 100 records"
-        >
-          Generate todos
-        </Button> */}
+        <Button variant="outline" size="sm" onClick={onGenerateTodos}>
+          Generate Random Todos
+        </Button>
         <div className="flex items-center justify-between space-x-2 text-md">
           <select
             className="border-2 border-indigo-600 rounded-md p-2"

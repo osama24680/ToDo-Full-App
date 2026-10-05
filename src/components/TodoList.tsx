@@ -110,29 +110,6 @@ const TodoList = () => {
     }
   };
 
-  const onGenerateTodos = async () => {
-    for (let i = 1; i <= 100; i++) {
-      try {
-        const { data } = await axiosInstance.post(
-          `/todos`,
-          {
-            data: {
-              title: faker.word.words(5),
-              description: faker.lorem.paragraph(2),
-            },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${userData?.jwt}`,
-            },
-          },
-        );
-        console.log(data);
-      } catch (error) {
-        console.error("Error updating todo:", error);
-      }
-    }
-  };
   const onSubmitUpdateTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsUpdated(true);
@@ -205,9 +182,6 @@ const TodoList = () => {
       <div className="w-fit mx-auto my-10 flex items-center space-x-3">
         <Button size="sm" onClick={onOpenAddModal}>
           Post New Todo
-        </Button>
-        <Button variant="outline" size="sm" onClick={onGenerateTodos}>
-          Create Todos
         </Button>
       </div>
       {data?.todos?.length > 0 ? (

@@ -12,7 +12,6 @@ import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import TodosPage from "../pages/Todos";
 
-const isLoggedIn = false;
 const userDataString = localStorage.getItem("loggedInUser");
 const userData = userDataString ? JSON.parse(userDataString) : null;
 console.log(userData);
@@ -34,7 +33,7 @@ const router = createBrowserRouter(
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/profile"
           element={
             <ProtectedRoute
@@ -45,7 +44,7 @@ const router = createBrowserRouter(
               <h2>Profile page</h2>
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="/todos"
           element={
