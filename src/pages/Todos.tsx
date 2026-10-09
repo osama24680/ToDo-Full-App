@@ -12,12 +12,12 @@ const TodosPage = ({}: IProps) => {
   const storageKey = "loggedInUser";
   const userDataString = localStorage.getItem(storageKey);
   const userData = userDataString ? JSON.parse(userDataString) : null;
-  const [newData, setNewData] = useState({});
+  const [newDataCounter, setNewDataCounter] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [sortBy, setSortBy] = useState("ASC");
   const configData = {
-    queryKey: [page, pageSize, sortBy, newData],
+    queryKey: [page, pageSize, sortBy, newDataCounter],
     url: `/todos?pagination[pageSize]=${pageSize}&pagination[page]=${page}&sort=createdAt:${sortBy}`,
     config: {
       headers: {
@@ -40,7 +40,7 @@ const TodosPage = ({}: IProps) => {
     setSortBy(e.target.value);
   };
   const onGenerateTodos = async () => {
-    for (let i = 1; i <= 100; i++) {
+    for (let i = 1; i <= 10; i++) {
       try {
         const { data } = await axiosInstance.post(
           `/todos`,
@@ -56,7 +56,7 @@ const TodosPage = ({}: IProps) => {
             },
           },
         );
-        setNewData(data);
+        setNewDataCounter((prev) => prev + 1);
         console.log(data);
       } catch (error) {
         console.error("Error updating todo:", error);

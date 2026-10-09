@@ -189,7 +189,11 @@ const TodoList = () => {
             key={todo.id}
             className="flex items-center justify-between hover:bg-gray-100 even:bg-gray-100 duration-300 rounded-md p-3"
           >
-            <p className="w-full font-semibold">{todo.title}</p>
+            <div className="space-y-1 flex w-full flex-col">
+              <h2 className="text-lg font-semibold">{todo.title}</h2>
+              <p className="text-gray-500">{todo.description}</p>
+            </div>
+
             <div className="flex items-center space-x-3 w-full justify-end">
               <Button size="sm" onClick={() => onOpenEditModal(todo)}>
                 Edit

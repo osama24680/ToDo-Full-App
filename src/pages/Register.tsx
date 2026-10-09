@@ -34,7 +34,7 @@ const RegisterPage = () => {
 
       if (status == 200) {
         toast.success("You will be navigated to login page in 2 seconds!", {
-          position: "bottom-center",
+          position: "top-center",
           duration: 2000,
           style: {
             background: "black",
@@ -50,7 +50,7 @@ const RegisterPage = () => {
       const errorObj = error as AxiosError<IErrorResponse>;
       const errorMessage = errorObj.response?.data?.error?.message;
       toast.error(`${errorMessage}`, {
-        position: "bottom-center",
+        position: "top-center",
         duration: 4000,
       });
     } finally {
@@ -62,6 +62,7 @@ const RegisterPage = () => {
       <Input
         placeholder={prop.placeholder}
         {...register(prop.name, prop.validation)}
+        type={prop.type}
       />
       {errors?.[prop.name] && (
         <InputErrorMessage msg={`${errors[prop.name]?.message}`} />
