@@ -112,3 +112,5 @@ npm run build
 ```
 
 Upload the contents of `dist/` to any static host. Because the app uses client-side routing, the host must serve `index.html` for unknown paths; otherwise refreshing `/todos` or `/login` returns a 404.
+
+On Apache / LiteSpeed hosts (such as Hostinger), this is handled by [`public/.htaccess`](public/.htaccess), which Vite copies into `dist/` on every build.
