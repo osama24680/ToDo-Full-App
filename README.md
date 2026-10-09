@@ -107,12 +107,6 @@ src/
 
 ## Deployment
 
-```bash
-npm run build
-```
+The frontend is deployed on **Vercel**, which builds it from GitHub on every push to `main`.
 
-Upload the contents of `dist/` to any static host. Because the app uses client-side routing, the host must serve `index.html` for unknown paths; otherwise refreshing `/todos` or `/login` returns a 404.
-
-- **Vercel:** handled by [`vercel.json`](vercel.json), which rewrites every path to `index.html`. Vercel still serves real files such as `/assets/*` directly.
-- **Static hosting (Apache / LiteSpeed):** handled by [`public/.htaccess`](public/.htaccess), which Vite copies into `dist/` on every build.
-- **Node.js hosting (e.g. a Hostinger Node.js app):** use [`server.js`](server.js), a dependency-free server that serves `dist/` and falls back to `index.html`. Set the build command to `npm run build` and the entry file to `server.js` (or run `npm start`). It listens on `PORT` (default `3000`).
+Because the app uses client-side routing, [`vercel.json`](vercel.json) rewrites every path to `index.html`, so refreshing `/todos` or `/login` doesn't return a 404. Real files such as `/assets/*` are still served directly.
