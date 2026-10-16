@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen bg-ink-900 font-sans text-slate-200 antialiased;
+    /* soft aqua/violet light pools behind everything */
+    background-image:
+      radial-gradient(900px 500px at 10% -10%, rgba(34, 211, 238, 0.12), transparent 60%),
+      radial-gradient(800px 500px at 100% 0%, rgba(139, 92, 246, 0.14), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-violet/40 text-white;
+  }
+}
+
+@layer components {
+  /* glass card used across the app */
+  .surface {
+    @apply rounded-2xl border border-white/[0.07] bg-ink-800/70 shadow-card backdrop-blur-xl;
+  }
+
+  .text-brand {
+    @apply bg-brand bg-clip-text text-transparent;
+  }
+
+  /* skeleton shimmer */
+  .skeleton {
+    @apply animate-shimmer rounded-md;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.09) 50%, rgba(255, 255, 255, 0.04) 75%);
+    background-size: 200% 100%;
+  }
+}
+
+/* faint grid behind the auth pages */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
