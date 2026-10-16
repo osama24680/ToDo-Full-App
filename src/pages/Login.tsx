@@ -10,6 +10,11 @@ import axiosInstance from "../Config/axios.config";
 import toast from "react-hot-toast";
 import { IErrorResponse } from "../Interfaces";
 import { AxiosError } from "axios";
+import { Link } from "react-router-dom";
+import AuthShell from "../components/auth/AuthShell";
+import { LockIcon, MailIcon } from "../components/ui/Icons";
+
+const fieldIcons = { identifier: <MailIcon />, password: <LockIcon /> };
 
 interface IFormInput {
   identifier: string;
@@ -33,16 +38,10 @@ const LoginPage = () => {
         "/auth/local",
         data,
       );
-      console.log("resData, status", resData, status);
       if (status == 200) {
         toast.success("You will be navigated to Home page in 2 seconds!", {
           position: "top-center",
           duration: 2000,
-          style: {
-            background: "black",
-            color: "#fff",
-            width: "fit-center",
-          },
         });
       }
       localStorage.setItem("loggedInUser", JSON.stringify(resData));
@@ -63,8 +62,14 @@ const LoginPage = () => {
 
   const renderLoginComponent = LOGIN_FORM.map((prop, idx) => (
     <div key={idx}>
+      <label htmlFor={prop.name} className="mb-1.5 block text-sm font-medium text-slate-300">
+        {prop.placeholder}
+      </label>
       <Input
-        placeholder={prop.placeholder}
+        id={prop.name}
+        placeholder={prop.type === "password" ? "••••••••" : "you@example.com"}
+        icon={fieldIcons[prop.name]}
+        hasError={Boolean(errors?.[prop.name])}
         {...register(prop.name, prop.validation)}
         type={prop.type}
       />
@@ -74,17 +79,25 @@ const LoginPage = () => {
     </div>
   ));
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="mb-4 text-3xl font-semibold text-center">
-        Login to get access!
-      </h2>
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <AuthShell
+      title="Welcome back"
+      subtitle="Log in to pick up right where you left off."
+      footer={
+        <>
+          Don't have an account?{" "}
+          <Link to="/register" className="font-semibold text-aqua hover:text-white">
+            Create one
+          </Link>
+        </>
+      }
+    >
+      <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
         {renderLoginComponent}
-        <Button fullWidth isLoading={isLoading}>
-          Login
+        <Button fullWidth isLoading={isLoading} className="mt-2">
+          Log in
         </Button>
       </form>
-    </div>
+    </AuthShell>
   );
 };
 

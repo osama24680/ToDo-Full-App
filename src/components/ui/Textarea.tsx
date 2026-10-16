@@ -5,8 +5,8 @@ interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 const Textarea = ({ ...rest }: IProps) => {
   return (
     <textarea
-      className="border-[1px] border-gray-300 shadow-md focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-600 rounded-lg px-3 py-3 my-3 text-md w-full bg-transparent"
-      rows={6}
+      className="w-full resize-none rounded-xl border border-white/10 bg-ink-850/80 px-4 py-3 text-sm leading-relaxed text-white placeholder:text-slate-500 outline-none transition focus:border-violet/60 focus:ring-4 focus:ring-violet/15"
+      rows={5}
       {...rest}
     />
   );

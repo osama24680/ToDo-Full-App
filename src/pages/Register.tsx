@@ -10,7 +10,12 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import { IErrorResponse } from "../Interfaces/index.ts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthShell from "../components/auth/AuthShell";
+import { LockIcon, MailIcon, UserIcon } from "../components/ui/Icons";
+
+const fieldIcons = { username: <UserIcon />, email: <MailIcon />, password: <LockIcon /> };
+const fieldHints = { username: "e.g. osama_dev", email: "you@example.com", password: "At least 6 characters" };
 // Renders
 interface IFormInput {
   username: string;
@@ -36,11 +41,6 @@ const RegisterPage = () => {
         toast.success("You will be navigated to login page in 2 seconds!", {
           position: "top-center",
           duration: 2000,
-          style: {
-            background: "black",
-            color: "#fff",
-            width: "fit-center",
-          },
         });
       }
       setTimeout(() => {
@@ -59,8 +59,14 @@ const RegisterPage = () => {
   };
   const renderRegisterComponent = REGISTER_FORM.map((prop, idx) => (
     <div key={idx}>
+      <label htmlFor={prop.name} className="mb-1.5 block text-sm font-medium text-slate-300">
+        {prop.placeholder}
+      </label>
       <Input
-        placeholder={prop.placeholder}
+        id={prop.name}
+        placeholder={fieldHints[prop.name]}
+        icon={fieldIcons[prop.name]}
+        hasError={Boolean(errors?.[prop.name])}
         {...register(prop.name, prop.validation)}
         type={prop.type}
       />
@@ -70,18 +76,25 @@ const RegisterPage = () => {
     </div>
   ));
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="mb-4 text-3xl font-semibold text-center">
-        Register to get access!
-      </h2>
-
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <AuthShell
+      title="Create your account"
+      subtitle="Start organizing your tasks in under a minute."
+      footer={
+        <>
+          Already have an account?{" "}
+          <Link to="/login" className="font-semibold text-aqua hover:text-white">
+            Log in
+          </Link>
+        </>
+      }
+    >
+      <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
         {renderRegisterComponent}
-        <Button fullWidth isLoading={isLoading}>
-          Register
+        <Button fullWidth isLoading={isLoading} className="mt-2">
+          Create account
         </Button>
       </form>
-    </div>
+    </AuthShell>
   );
 };
 
