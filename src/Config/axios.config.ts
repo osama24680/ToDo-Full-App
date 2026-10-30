@@ -4,4 +4,16 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
+// Expired or invalid token: clear the stored user and send them back to login
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && localStorage.getItem("loggedInUser")) {
+      localStorage.removeItem("loggedInUser");
+      location.replace("/login");
+    }
+    return Promise.reject(error);
+  },
+);
+
 export default axiosInstance;
